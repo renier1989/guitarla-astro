@@ -1,4 +1,5 @@
 ---
+import Header from '../components/Header.astro';
 interface Props {
   title: string;
   description: string;
@@ -19,6 +20,7 @@ const { title, description } = Astro.props;
     <title>GuitarLA - {title}</title>
   </head>
   <body>
+	<Header/>
     <slot />
   </body>
 </html>
