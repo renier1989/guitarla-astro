@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import logo from "../img/logo.svg"
 
+const pathname= Astro.url.pathname;
+
 ---
 
 <header class="header">
@@ -12,10 +14,10 @@ import logo from "../img/logo.svg"
         </a>
 
         <nav class="navegacion">
-            <a href="/">Inicio</a>
-            <a href="/nosotros">Nosotros</a>
-            <a href="/tienda">Tienda</a>
-            <a href="/blog">Blog</a>
+            <a href="/" class={pathname === '/' ? 'active' : ''}>Inicio</a>
+            <a href="/nosotros" class={pathname === '/nosotros' ? 'active' : ''}>Nosotros</a>
+            <a href="/tienda" class={pathname === '/tienda' ? 'active' : ''}>Tienda</a>
+            <a href="/blog" class={pathname === '/blog' ? 'active' : ''}>Blog</a>
         </nav>
     </div>
 
