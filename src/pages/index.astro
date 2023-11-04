@@ -1,4 +1,5 @@
 ---
+import Curso from "../components/Curso.astro";
 import Guitarra from "../components/Guitarra.astro";
 import Post from "../components/Post.astro";
 import Layout from "../layouts/Layout.astro";
@@ -42,6 +43,12 @@ const [{ data: guitarras }, { data: curso }, { data: posts }] =
         ))
       }
     </div>
+
+	<Curso 
+	titulo={curso?.attributes?.titulo} 
+	contenido={curso?.attributes?.contenido}
+	imagen={curso?.attributes?.imagen?.data?.attributes?.formats?.medium?.url}
+	/>
 
     <h1 class="heading">Úlimas Noticias</h1>
     <div class="grid">
