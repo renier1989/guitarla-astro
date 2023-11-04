@@ -1,4 +1,5 @@
 ---
+import ComponenteReact from "../components/ComponenteReact";
 import Curso from "../components/Curso.astro";
 import Guitarra from "../components/Guitarra.astro";
 import Post from "../components/Post.astro";
@@ -43,13 +44,17 @@ const [{ data: guitarras }, { data: curso }, { data: posts }] =
         ))
       }
     </div>
+  </main>
 
-	<Curso 
-	titulo={curso?.attributes?.titulo} 
-	contenido={curso?.attributes?.contenido}
-	imagen={curso?.attributes?.imagen?.data?.attributes?.formats?.medium?.url}
-	/>
+  <Curso
+    titulo={curso?.attributes?.titulo}
+    contenido={curso?.attributes?.contenido}
+    imagen={curso?.attributes?.imagen?.data?.attributes?.formats?.medium?.url}
+  />
 
+  <ComponenteReact client:only />
+
+  <div class="contenedor">
     <h1 class="heading">Úlimas Noticias</h1>
     <div class="grid">
       {
@@ -66,7 +71,7 @@ const [{ data: guitarras }, { data: curso }, { data: posts }] =
         ))
       }
     </div>
-  </main>
+  </div>
 </Layout>
 
 <style></style>
