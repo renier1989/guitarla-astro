@@ -1,16 +1,65 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Guitarra from "../components/Guitarra.astro";
+import Post from "../components/Post.astro";
+import Layout from "../layouts/Layout.astro";
 
+const urlGuitarras = `${
+  import.meta.env.PUBLIC_API_URL
+}/guitarras?populate=imagen`;
+const urlCurso = `${import.meta.env.PUBLIC_API_URL}/curso?populate=imagen`;
+const urlPost = `${import.meta.env.PUBLIC_API_URL}/posts?populate=imagen`;
+
+const [resGuitarras, resCurso, resPost] = await Promise.all([
+  fetch(urlGuitarras),
+  fetch(urlCurso),
+  fetch(urlPost),
+]);
+
+const [{ data: guitarras }, { data: curso }, { data: posts }] =
+  await Promise.all([resGuitarras.json(), resCurso.json(), resPost.json()]);
 ---
 
-<Layout title="Inicio" description="GuitarLa pagina de venta de guitarras, blog , cursos y mucho màs.">
-	<main class="contenedor">
-		<h1 class="heading">
-			Inicio
-		</h1>
-	</main>
+<Layout
+  title="Inicio"
+  description="GuitarLa pagina de venta de guitarras, blog , cursos y mucho màs."
+>
+  <main class="contenedor">
+    <h1 class="heading">Nuestra Colección</h1>
+
+    <div class="grid">
+      {
+        guitarras?.map((guitarra) => (
+          <Guitarra
+            nombre={guitarra?.attributes?.nombre}
+            descripcion={guitarra?.attributes?.descripcion}
+            url={guitarra?.attributes?.url}
+            precio={guitarra?.attributes?.precio}
+            imagen={
+              guitarra?.attributes?.imagen?.data?.attributes?.formats?.medium
+                ?.url
+            }
+          />
+        ))
+      }
+    </div>
+
+    <h1 class="heading">Úlimas Noticias</h1>
+    <div class="grid">
+      {
+        posts?.map((blog) => (
+          <Post
+            titulo={blog?.attributes?.titulo}
+            contenido={blog?.attributes?.contenido}
+            publishedAt={blog?.attributes?.publishedAt}
+            imagen={
+              blog?.attributes?.imagen?.data?.attributes?.formats?.medium?.url
+            }
+            url={blog?.attributes?.url}
+          />
+        ))
+      }
+    </div>
+  </main>
 </Layout>
 
-<style>
-
-</style>
+<style></style>
