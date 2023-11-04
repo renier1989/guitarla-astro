@@ -1,0 +1,59 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { formatearFecha } from "../../utils/index.js";
+
+export async function getStaticPaths() {
+  const url = `${import.meta.env.PUBLIC_API_URL}/posts?populate=imagen`;
+  const respuesta = await fetch(url);
+  const { data } = await respuesta.json();
+  console.log(data);
+
+  return data.map((post) => ({
+    params: {
+      id: post.attributes.url,
+    },
+    props: {
+      post: post.attributes,
+    },
+  }));
+}
+
+const { titulo, contenido, publishedAt, imagen } = Astro?.props?.post;
+---
+
+<Layout title={titulo} description={`Blog de guitarla para el post ${titulo}`}>
+  <article class="post mt-3">
+    <img src={imagen?.data?.attributes?.url} alt={`Imagen del post ${titulo}`} />
+
+    <div class="contenido mt-3">
+      <h3>{titulo}</h3>
+      <p class="fecha">{formatearFecha(publishedAt)}</p>
+      <p class="texto">{contenido}</p>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  .contenido {
+    padding: 1.5rem;
+  }
+  .contenido h3 {
+    font-weight: 900;
+    font-size: 2.8rem;
+    margin: 0;
+  }
+  .fecha {
+    font-size: 1.6rem;
+    color: var(--primary);
+  }
+  .texto {
+    white-space: pre-wrap;
+  }
+  .mt-3 {
+    margin-top: 3rem;
+  }
+</style>
